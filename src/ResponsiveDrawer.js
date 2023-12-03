@@ -22,6 +22,7 @@ import ReportGrid from "./ReportGrid";
 import ChartPie from "./ChartPie";
 import { useNavigate } from "react-router-dom";
 import { getStoredUsername } from "./authUtils";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const drawerWidth = 240;
 
@@ -51,6 +52,12 @@ function ResponsiveDrawer(props) {
     const storedUsername = getStoredUsername();
     setIsLoggedIn(!!storedUsername);
   }, []);
+
+  const handleLogout = () => {
+    // Add your logout logic here, for example:
+    localStorage.removeItem("token"); // Assuming you store authentication token in local storage
+    navigate("/"); // Redirect to the login page
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -154,9 +161,16 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             {selectedSection}
           </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="logout"
+            onClick={handleLogout} // Replace handleLogout with your logout function
+          >
+            <ExitToAppIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Box
