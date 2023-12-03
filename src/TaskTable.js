@@ -40,36 +40,51 @@ const TaskTable = () => {
 
   const handleUpdateStatusClick = async () => {
     try {
-      const newStatus = "done"; // Set the desired new status
-      const response = await fetch(
-        `https://rmes.kempshot.com/update-status/${selectedRow.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            new_status: newStatus,
-          }),
-        },
+      // Find the selected radio button by name
+      const selectedRadioButton = document.querySelector(
+        'input[name="radio-buttons-group"]:checked',
       );
 
-      if (response.ok) {
-        // The status was updated successfully, you can handle the response as needed
-        console.log("Status updated successfully");
+      // Check if a radio button is selected
+      if (selectedRadioButton) {
+        const newStatus = selectedRadioButton.value;
 
-        // Reload tasks after the update
-        loadTasksFromApi();
+        const response = await fetch(
+          `https://rmes.kempshot.com/update-status/${selectedRow.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              new_status: newStatus,
+            }),
+          },
+        );
 
-        // Set success message
-        setAlertMessage("Status updated successfully");
-        setAlertSeverity("success");
+        if (response.ok) {
+          // The status was updated successfully, you can handle the response as needed
+          console.log("Status updated successfully");
+
+          // Reload tasks after the update
+          loadTasksFromApi();
+
+          // Set success message
+          setAlertMessage("Status updated successfully");
+          setAlertSeverity("success");
+        } else {
+          // Handle error cases
+          console.error("Failed to update status");
+
+          // Set error message
+          setAlertMessage("Failed to update status");
+          setAlertSeverity("error");
+        }
       } else {
-        // Handle error cases
-        console.error("Failed to update status");
+        console.error("No radio button selected");
 
         // Set error message
-        setAlertMessage("Failed to update status");
+        setAlertMessage("No radio button selected");
         setAlertSeverity("error");
       }
     } catch (error) {
@@ -145,6 +160,9 @@ const TaskTable = () => {
     }
   };
 
+  // Get the username from local storage
+  const username = localStorage.getItem("loggedInUsername");
+
   return (
     <div style={{ width: "100%", padding: "16px" }}>
       <h2
@@ -174,23 +192,25 @@ const TaskTable = () => {
           disableSelectionOnClick
         />
       </div>
-      {/* Clickable button at the bottom-right */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginTop: "16px",
-        }}
-      >
-        <Button variant="contained" onClick={handleButtonClick}>
-          Add Task
-        </Button>
-      </Box>
+
+      {/* Render the "Add Task" button only for the username "Maclean" */}
+      {username === "Maclean" && (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginTop: "16px",
+          }}
+        >
+          <Button variant="contained" onClick={handleButtonClick}>
+            Add Task
+          </Button>
+        </Box>
+      )}
 
       <Dialog
         open={isDialogOpen}
         onClose={handleDialogClose}
-        c
         fullWidth
         maxWidth="md" // Adjust the width as needed
         PaperProps={{
@@ -216,12 +236,12 @@ const TaskTable = () => {
                 <FormLabel component="legend">Status</FormLabel>
                 <RadioGroup aria-label="status" name="radio-buttons-group">
                   <FormControlLabel
-                    value="ongoing"
+                    value="Ongoing"
                     control={<Radio />}
                     label="Ongoing"
                   />
                   <FormControlLabel
-                    value="done"
+                    value="Done"
                     control={<Radio />}
                     label="Done"
                   />
@@ -234,7 +254,10 @@ const TaskTable = () => {
         </DialogContent>
         <DialogActions>
           {selectedRow && (
-            <Button variant="contained" onClick={handleUpdateStatusClick}>
+            <Button
+              variant="contained"
+              onClick={(event) => handleUpdateStatusClick(event)}
+            >
               Update Status
             </Button>
           )}

@@ -43,7 +43,7 @@ const SubmitTask = () => {
       }
 
       // Use the correct API endpoint for your Flask server
-      const apiUrl = "https://rmes.kempshot.com/submit-task";
+      const apiUrl = "https://task.kempshot.com/submit-task";
 
       // Send data to the Flask API
       await axios.post(apiUrl, {
