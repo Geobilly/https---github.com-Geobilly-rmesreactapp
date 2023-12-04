@@ -9,6 +9,8 @@ import {
   FormControl,
 } from "@mui/material";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const SubmitTask = () => {
   const [nameOfStaff, setNameOfStaff] = useState("");
@@ -17,6 +19,7 @@ const SubmitTask = () => {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [usernames, setUsernames] = useState([]);
+  const [loading, setLoading] = useState(false); // State to track loading
 
   useEffect(() => {
     const fetchUsernames = async () => {
@@ -42,6 +45,9 @@ const SubmitTask = () => {
         return;
       }
 
+      // Set loading state to true
+      setLoading(true);
+
       // Use the correct API endpoint for your Flask server
       const apiUrl = "https://task.kempshot.com/submit-task";
 
@@ -52,7 +58,8 @@ const SubmitTask = () => {
         content_of_task: contentOfTask,
       });
 
-      // Reset form fields and display success message
+      // Reset loading state and form fields, and display success message
+      setLoading(false);
       setNameOfStaff("");
       setTitle("");
       setContentOfTask("");
@@ -66,6 +73,9 @@ const SubmitTask = () => {
     } catch (error) {
       console.error("Error submitting task:", error);
       alert("Error submitting task");
+
+      // Reset loading state in case of an error
+      setLoading(false);
     }
   };
 
@@ -114,9 +124,26 @@ const SubmitTask = () => {
           value={contentOfTask}
           onChange={(e) => setContentOfTask(e.target.value)}
         />
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
+        {/* Conditionally render the CircularProgress based on the loading state */}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
           Submit Task
         </Button>
+        {loading && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "10px",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
         {error && <Typography color="error">{error}</Typography>}
         {successMessage && (
           <Typography style={{ color: "green" }}>{successMessage}</Typography>
