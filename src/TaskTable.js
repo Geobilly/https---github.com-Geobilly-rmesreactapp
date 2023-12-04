@@ -143,7 +143,23 @@ const TaskTable = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setTasks(data);
+
+        // Remove duplicates based on task ID and submission date
+        const uniqueTasks = data.reduce((unique, task) => {
+          return unique.some(
+            (t) =>
+              t.id === task.id && t.submission_date === task.submission_date,
+          )
+            ? unique
+            : [...unique, task];
+        }, []);
+
+        // Sort unique tasks by date in descending order
+        const sortedTasks = uniqueTasks
+          .slice()
+          .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        setTasks(sortedTasks);
       } else {
         console.error("Failed to fetch tasks");
 
@@ -228,9 +244,25 @@ const TaskTable = () => {
               <p>ID: {selectedRow.id}</p>
               <p>Name of Staff: {selectedRow.name_of_staff}</p>
               <p>Title: {selectedRow.title}</p>
-              <p>Content of Task: {selectedRow.content_of_task}</p>
+
+              {/* Style the Content of Task for better visibility */}
+              <div
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  marginBottom: "10px",
+                }}
+              >
+                <strong>Content of Task:</strong>
+                <pre style={{ whiteSpace: "pre-wrap" }}>
+                  {selectedRow.content_of_task}
+                </pre>
+              </div>
+
               <p>Date: {selectedRow.date}</p>
               <p>Status: {selectedRow.status}</p>
+
               {/* Add your radio buttons here */}
               <FormControl component="fieldset" style={{ marginTop: "16px" }}>
                 <FormLabel component="legend">Status</FormLabel>
@@ -252,6 +284,7 @@ const TaskTable = () => {
             <SubmitTask onClose={handleDialogClose} />
           )}
         </DialogContent>
+
         <DialogActions>
           {selectedRow && (
             <Button
