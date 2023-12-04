@@ -1,6 +1,6 @@
 // ReportGrid.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -8,10 +8,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import ReportForm from "./ReportForm"; // Import your ReportForm component
+import ReportForm from "./ReportForm";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import { getStoredUsername } from "./authUtils"; // Import authUtils
+import { getStoredUsername } from "./authUtils";
 
 const ReportGrid = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -19,6 +19,15 @@ const ReportGrid = () => {
   const [reports, setReports] = useState([]);
   const [alertMessage, setAlertMessage] = useState(null);
   const [alertSeverity, setAlertSeverity] = useState(null);
+
+  const sortedReports = useMemo(() => {
+    // Sort the reports array by submission_date in descending order
+    return reports
+      .slice()
+      .sort(
+        (a, b) => new Date(b.submission_date) - new Date(a.submission_date),
+      );
+  }, [reports]);
 
   const handleDialogClose = () => {
     setIsDialogOpen(false);
@@ -60,20 +69,16 @@ const ReportGrid = () => {
     },
   ];
 
-  // Set blue color for column names
   columns.forEach((column) => {
     column.headerClassName = "blue-header";
   });
 
   useEffect(() => {
-    // Check for logged-in username in localStorage
     const username = getStoredUsername();
 
     if (username) {
-      // Fetch reports based on the logged-in username
       fetchReportsFromApi(username);
     } else {
-      // Set an alert if no username is found
       setAlertMessage("No logged-in username found");
       setAlertSeverity("error");
     }
@@ -86,25 +91,21 @@ const ReportGrid = () => {
       );
       if (response.ok) {
         const data = await response.json();
-
-        // Add a unique id to each report
         const reportsWithId = data.map((report, index) => ({
           ...report,
-          id: index + 1, // You can use a more sophisticated id generation logic if needed
+          id: index + 1,
         }));
 
         setReports(reportsWithId);
       } else {
         console.error("Failed to fetch reports");
 
-        // Set error message
         setAlertMessage("Failed to fetch reports");
         setAlertSeverity("error");
       }
     } catch (error) {
       console.error("Error fetching reports:", error);
 
-      // Set error message
       setAlertMessage("Error fetching reports");
       setAlertSeverity("error");
     }
@@ -123,7 +124,6 @@ const ReportGrid = () => {
         Report Grid
       </h2>
 
-      {/* Display alert message */}
       {alertMessage && (
         <Stack sx={{ width: "100%" }} spacing={2}>
           <Alert severity={alertSeverity}>{alertMessage}</Alert>
@@ -132,14 +132,14 @@ const ReportGrid = () => {
 
       <div style={{ height: 550, width: "100%" }}>
         <DataGrid
-          rows={reports}
+          rows={sortedReports}
           columns={columns}
           pageSize={10}
           checkboxSelection
           disableSelectionOnClick
         />
       </div>
-      {/* Clickable button at the bottom-right */}
+
       <Box
         sx={{
           display: "flex",
@@ -152,12 +152,11 @@ const ReportGrid = () => {
         </Button>
       </Box>
 
-      {/* Dialog for the ReportForm component or View details */}
       <Dialog
         open={isDialogOpen}
         onClose={handleDialogClose}
         fullWidth
-        maxWidth="xs" // Set the maximum width
+        maxWidth="xs"
         PaperProps={{
           style: {
             borderRadius: "12px",
@@ -174,14 +173,28 @@ const ReportGrid = () => {
               <p>Report ID: {selectedRow.report_id}</p>
               <p>Report Title: {selectedRow.report_title}</p>
               <p>Author Name: {selectedRow.author_name}</p>
-              <p>Report Content: {selectedRow.report_content}</p>
+
+              <div
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  marginBottom: "10px",
+                }}
+              >
+                <strong>Report Content:</strong>
+                <pre style={{ whiteSpace: "pre-wrap" }}>
+                  {selectedRow.report_content}
+                </pre>
+              </div>
+
               <p>Submission Date: {selectedRow.submission_date}</p>
-              {/* <p>Status: {selectedRow.status}</p> */}
             </div>
           ) : (
             <ReportForm />
           )}
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleDialogClose}>Close</Button>
         </DialogActions>
