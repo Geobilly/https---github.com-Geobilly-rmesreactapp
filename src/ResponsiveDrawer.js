@@ -33,6 +33,7 @@ import Popover from "@mui/material/Popover";
 import ListSubheader from "@mui/material/ListSubheader";
 import SmsIcon from "@mui/icons-material/Sms";
 import ChatIcon from "@mui/icons-material/Chat";
+import Client from "./Client"; // Adjust the path based on your project structure
 
 const drawerWidth = 240;
 
@@ -214,6 +215,20 @@ function ResponsiveDrawer(props) {
         <TaskTable />
       ) : selectedSection === "Report" ? (
         <ReportGrid />
+      ) : selectedSection === "Send SMS" ? (
+        <Client />
+      ) : selectedSection === "Messages" ? (
+        // Add your component or content for "Messages" section
+        <Box>
+          <Typography variant="h4">Messages Section</Typography>
+          {/* Add your content here */}
+        </Box>
+      ) : selectedSection === "Canteen Fees" ? (
+        // Add your component or content for "Canteen Fees" section
+        <Box>
+          <Typography variant="h4">Canteen Fees Section</Typography>
+          {/* Add your content here */}
+        </Box>
       ) : (
         <Box
           component="main"
