@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 // import TasksTable from "./TasksTable"; // Import the new component
 import ReportForm from "./ReportForm";
 import Login from "./Login";
+import Client from "./Client";
+
 import SubmitTask from "./SubmitTask";
 // import Dashboard from "./Dashboard"; // or '../path/to/Dashboard'
 import ResponsiveDrawer from "./ResponsiveDrawer"; // Update the path based on your project structure
@@ -38,6 +40,7 @@ function App() {
         <Route path="/tasktt" element={<TaskTable />} />
         <Route path="/report" element={<ReportGrid />} />
         <Route path="/pie" element={<ChartPie />} />
+        <Route path="/client" element={<Client />} />
       </Routes>
     </Router>
   );

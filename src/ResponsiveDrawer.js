@@ -23,6 +23,16 @@ import ChartPie from "./ChartPie";
 import { useNavigate } from "react-router-dom";
 import { getStoredUsername } from "./authUtils";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import Collapse from "@mui/material/Collapse";
+import BusinessIcon from "@mui/icons-material/Business"; // Icon for Project Management
+import AssignmentIcon from "@mui/icons-material/Assignment"; // Icon for Task
+import BarChartIcon from "@mui/icons-material/BarChart"; // Icon for Report
+import CampaignIcon from "@mui/icons-material/Campaign";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm"; // Import an appropriate icon for Canteen Fees
+import Popover from "@mui/material/Popover";
+import ListSubheader from "@mui/material/ListSubheader";
+import SmsIcon from "@mui/icons-material/Sms";
+import ChatIcon from "@mui/icons-material/Chat";
 
 const drawerWidth = 240;
 
@@ -78,7 +88,7 @@ function ResponsiveDrawer(props) {
         RMS
       </Typography>
       <List>
-        {["Dashboard", "Task", "Report"].map((text) => (
+        {["Dashboard", "Project Management"].map((text) => (
           <ListItem
             key={text}
             disablePadding
@@ -87,12 +97,108 @@ function ResponsiveDrawer(props) {
           >
             <ListItemButton>
               <ListItemIcon>
-                <MenuIcon />
+                {text === "Dashboard" ? (
+                  <BarChartIcon />
+                ) : text === "Project Management" ? (
+                  <BusinessIcon />
+                ) : null}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+        <Collapse
+          in={selectedSection === "Project Management"}
+          timeout="auto"
+          unmountOnExit
+        >
+          <List>
+            {["Task", "Report"].map((text) => (
+              <ListItem
+                key={text}
+                disablePadding
+                button
+                onClick={() => handleSectionClick(text)}
+                sx={{ pl: 4 }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    {text === "Task" ? (
+                      <AssignmentIcon />
+                    ) : text === "Report" ? (
+                      <BarChartIcon />
+                    ) : null}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Collapse>
+        <ListItem
+          key="Marketing"
+          disablePadding
+          button
+          onClick={() => handleSectionClick("Marketing")}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <CampaignIcon />
+            </ListItemIcon>
+            <ListItemText primary="Marketing" />
+          </ListItemButton>
+        </ListItem>
+        <Collapse
+          in={selectedSection === "Marketing"}
+          timeout="auto"
+          unmountOnExit
+        >
+          <List>
+            <ListItem
+              key="Send SMS"
+              disablePadding
+              button
+              onClick={() => handleSectionClick("Send SMS")}
+              sx={{ pl: 4 }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  {/* Replace with your desired icon for "Send SMS" */}
+                  <SmsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Send SMS" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem
+              key="Messages"
+              disablePadding
+              button
+              onClick={() => handleSectionClick("Messages")}
+              sx={{ pl: 4 }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  {/* Replace with your desired icon for "Messages" */}
+                  <ChatIcon />
+                </ListItemIcon>
+                <ListItemText primary="Messages" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Collapse>
+        <ListItem
+          key="Canteen Fees"
+          disablePadding
+          button
+          onClick={() => handleSectionClick("Canteen Fees")}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <LocalAtmIcon />
+            </ListItemIcon>
+            <ListItemText primary="Canteen Fees" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );

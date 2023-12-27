@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -9,11 +9,12 @@ import {
   SnackbarContent,
 } from "@mui/material";
 import axios from "axios";
+import { getStoredUsername } from "../../https---github.com-Geobilly-rmesreactapp/src/authUtils"; // Update the path
 
 const ReportForm = () => {
   const [report, setReport] = useState({
     report_title: "",
-    author_name: "",
+    author_name: getStoredUsername() || "", // Auto-fill from local storage
     report_content: "",
   });
 
@@ -54,13 +55,25 @@ const ReportForm = () => {
       // Clear form fields after successful submission
       setReport({
         report_title: "",
-        author_name: "",
+        author_name: getStoredUsername() || "", // Auto-fill from local storage
         report_content: "",
       });
+
+      // Display success message in Snackbar
+      setSuccessMessage("Report submitted successfully");
+      setOpenSnackbar(true);
     } catch (error) {
       console.error("Error submitting report:", error);
     }
   };
+
+  useEffect(() => {
+    // Auto-fill Author Name when the component mounts
+    setReport({
+      ...report,
+      author_name: getStoredUsername() || "",
+    });
+  }, []);
 
   return (
     <Container maxWidth="sm">
@@ -86,6 +99,9 @@ const ReportForm = () => {
             value={report.author_name}
             onChange={handleChange}
             required
+            InputProps={{
+              readOnly: true,
+            }}
           />
           <TextField
             label="Report Content"
