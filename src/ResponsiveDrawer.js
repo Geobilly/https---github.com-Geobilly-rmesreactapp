@@ -1,5 +1,3 @@
-// ResponsiveDrawer.js
-
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
@@ -24,16 +22,18 @@ import { useNavigate } from "react-router-dom";
 import { getStoredUsername } from "./authUtils";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import Collapse from "@mui/material/Collapse";
-import BusinessIcon from "@mui/icons-material/Business"; // Icon for Project Management
-import AssignmentIcon from "@mui/icons-material/Assignment"; // Icon for Task
-import BarChartIcon from "@mui/icons-material/BarChart"; // Icon for Report
+import BusinessIcon from "@mui/icons-material/Business";
+import AssignmentIcon from "@mui/icons-material/Assignment";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import CampaignIcon from "@mui/icons-material/Campaign";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm"; // Import an appropriate icon for Canteen Fees
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import Popover from "@mui/material/Popover";
 import ListSubheader from "@mui/material/ListSubheader";
 import SmsIcon from "@mui/icons-material/Sms";
 import ChatIcon from "@mui/icons-material/Chat";
-import Client from "./Client"; // Adjust the path based on your project structure
+import Client from "./Client";
+import Message from "./Message"; // Import the Message component
+// Adjust the path based on your project structure
 
 const drawerWidth = 240;
 
@@ -65,9 +65,8 @@ function ResponsiveDrawer(props) {
   }, []);
 
   const handleLogout = () => {
-    // Add your logout logic here, for example:
-    localStorage.removeItem("token"); // Assuming you store authentication token in local storage
-    navigate("/"); // Redirect to the login page
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   const handleDrawerToggle = () => {
@@ -164,7 +163,6 @@ function ResponsiveDrawer(props) {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  {/* Replace with your desired icon for "Send SMS" */}
                   <SmsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Send SMS" />
@@ -179,7 +177,6 @@ function ResponsiveDrawer(props) {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  {/* Replace with your desired icon for "Messages" */}
                   <ChatIcon />
                 </ListItemIcon>
                 <ListItemText primary="Messages" />
@@ -218,13 +215,8 @@ function ResponsiveDrawer(props) {
       ) : selectedSection === "Send SMS" ? (
         <Client />
       ) : selectedSection === "Messages" ? (
-        // Add your component or content for "Messages" section
-        <Box>
-          <Typography variant="h4">Messages Section</Typography>
-          {/* Add your content here */}
-        </Box>
+        <Message /> // Display the Message component for "Messages" section
       ) : selectedSection === "Canteen Fees" ? (
-        // Add your component or content for "Canteen Fees" section
         <Box>
           <Typography variant="h4">Canteen Fees Section</Typography>
           {/* Add your content here */}
@@ -288,7 +280,7 @@ function ResponsiveDrawer(props) {
           <IconButton
             color="inherit"
             aria-label="logout"
-            onClick={handleLogout} // Replace handleLogout with your logout function
+            onClick={handleLogout}
           >
             <ExitToAppIcon />
           </IconButton>

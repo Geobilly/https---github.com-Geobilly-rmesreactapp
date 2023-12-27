@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ReportForm from "./ReportForm";
 import Login from "./Login";
 import Client from "./Client";
+import Message from "./Message";
 
 import SubmitTask from "./SubmitTask";
 // import Dashboard from "./Dashboard"; // or '../path/to/Dashboard'
@@ -41,6 +42,7 @@ function App() {
         <Route path="/report" element={<ReportGrid />} />
         <Route path="/pie" element={<ChartPie />} />
         <Route path="/client" element={<Client />} />
+        <Route path="/message" element={<Message />} />
       </Routes>
     </Router>
   );
