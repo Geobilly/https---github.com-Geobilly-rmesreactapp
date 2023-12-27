@@ -85,7 +85,7 @@ function ResponsiveDrawer(props) {
         component="div"
         sx={{ flexGrow: 1, textAlign: "center", paddingTop: "16px" }}
       >
-        RMS
+        KEMPSHOT
       </Typography>
       <List>
         {["Dashboard", "Project Management"].map((text) => (
