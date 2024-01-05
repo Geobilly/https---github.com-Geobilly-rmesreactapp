@@ -6,6 +6,11 @@ import ReportForm from "./ReportForm";
 import Login from "./Login";
 import Client from "./Client";
 import Message from "./Message";
+import CanteenFees from "./CanteenFees";
+import AddressForm from "./AddressForm";
+import PaymentForm from "./PaymentForm";
+import Checkout from "./Checkout";
+import Review from "./Review";
 
 import SubmitTask from "./SubmitTask";
 // import Dashboard from "./Dashboard"; // or '../path/to/Dashboard'
@@ -43,6 +48,8 @@ function App() {
         <Route path="/pie" element={<ChartPie />} />
         <Route path="/client" element={<Client />} />
         <Route path="/message" element={<Message />} />
+        <Route path="/canteen" element={<CanteenFees />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </Router>
   );
