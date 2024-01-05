@@ -31,6 +31,7 @@ import Popover from "@mui/material/Popover";
 import ListSubheader from "@mui/material/ListSubheader";
 import SmsIcon from "@mui/icons-material/Sms";
 import ChatIcon from "@mui/icons-material/Chat";
+import PaymentIcon from "@mui/icons-material/Payment";
 import Client from "./Client";
 import Message from "./Message"; // Import the Message component
 // Adjust the path based on your project structure
@@ -198,6 +199,43 @@ function ResponsiveDrawer(props) {
           </ListItemButton>
         </ListItem>
       </List>
+      <Collapse
+        in={selectedSection === "Canteen Fees"}
+        timeout="auto"
+        unmountOnExit
+      >
+        <List>
+          <ListItem
+            key="Collect Fees"
+            disablePadding
+            button
+            onClick={() => handleSectionClick("Collect Fees")}
+            sx={{ pl: 4 }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <PaymentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Collect Fees" />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key="Fees Report"
+            disablePadding
+            button
+            onClick={() => handleSectionClick("Fees Report")}
+            sx={{ pl: 4 }}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <BarChartIcon />{" "}
+                {/* You can change this icon to match your design */}
+              </ListItemIcon>
+              <ListItemText primary="Fees Report" />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Collapse>
     </div>
   );
 
@@ -218,7 +256,7 @@ function ResponsiveDrawer(props) {
         <Message /> // Display the Message component for "Messages" section
       ) : selectedSection === "Canteen Fees" ? (
         <Box>
-          <Typography variant="h4">Canteen Fees Section</Typography>
+          <Typography variant="h4">Canteen Fees</Typography>
           {/* Add your content here */}
         </Box>
       ) : (
