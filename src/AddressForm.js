@@ -1,107 +1,202 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import * as React from "react";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 export default function AddressForm() {
+  const [notPaidSelection, setNotPaidSelection] = React.useState([]);
+  const [boardersSelection, setBoardersSelection] = React.useState([]);
+  const [sponsoredSelection, setSponsoredSelection] = React.useState([]);
+  const [billedSelection, setBilledSelection] = React.useState([]);
+  const [busSelection, setBusSelection] = React.useState([]);
+  const [busAdvanceSelection, setBusAdvanceSelection] = React.useState([]);
+  const [feedingAdvanceSelection, setFeedingAdvanceSelection] = React.useState(
+    [],
+  );
+  const [underpaymentSelection, setUnderpaymentSelection] = React.useState([]);
+
+  const handleChange = (event, setSelection) => {
+    setSelection(event.target.value);
+  };
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Shipping address
+        Select
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="firstName"
-            name="firstName"
-            label="First name"
-            fullWidth
-            autoComplete="given-name"
-            variant="standard"
-          />
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="not-paid-label">Select Not Paid</InputLabel>
+            <Select
+              labelId="not-paid-label"
+              id="notPaid"
+              name="notPaid"
+              multiple
+              value={notPaidSelection}
+              onChange={(event) => handleChange(event, setNotPaidSelection)}
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="John">John</MenuItem>
+              <MenuItem value="Jane">Jane</MenuItem>
+              <MenuItem value="Doe">Doe</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="family-name"
-            variant="standard"
-          />
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="sponsored-label">Select Sponsored</InputLabel>
+            <Select
+              labelId="sponsored-label"
+              id="sponsored"
+              name="sponsored"
+              multiple
+              value={sponsoredSelection}
+              onChange={(event) => handleChange(event, setSponsoredSelection)}
+              autoComplete="family-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="Smith">Smith</MenuItem>
+              <MenuItem value="Johnson">Johnson</MenuItem>
+              <MenuItem value="Williams">Williams</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="boarders-label">Select Boarders</InputLabel>
+            <Select
+              labelId="boarders-label"
+              id="boarders"
+              name="boarders"
+              multiple
+              value={boardersSelection}
+              onChange={(event) => handleChange(event, setBoardersSelection)}
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="John">John</MenuItem>
+              <MenuItem value="Jane">Jane</MenuItem>
+              <MenuItem value="Doe">Doe</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="billed-label">Select Billed</InputLabel>
+            <Select
+              labelId="billed-label"
+              id="billed"
+              name="billed"
+              multiple
+              value={billedSelection}
+              onChange={(event) => handleChange(event, setBilledSelection)}
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="Option1">Option1</MenuItem>
+              <MenuItem value="Option2">Option2</MenuItem>
+              <MenuItem value="Option3">Option3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="bus-label">Select Bus</InputLabel>
+            <Select
+              labelId="bus-label"
+              id="bus"
+              name="bus"
+              multiple
+              value={busSelection}
+              onChange={(event) => handleChange(event, setBusSelection)}
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="Option1">Option1</MenuItem>
+              <MenuItem value="Option2">Option2</MenuItem>
+              <MenuItem value="Option3">Option3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="bus-advance-label">Select Bus Advance</InputLabel>
+            <Select
+              labelId="bus-advance-label"
+              id="busAdvance"
+              name="busAdvance"
+              multiple
+              value={busAdvanceSelection}
+              onChange={(event) => handleChange(event, setBusAdvanceSelection)}
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="Option1">Option1</MenuItem>
+              <MenuItem value="Option2">Option2</MenuItem>
+              <MenuItem value="Option3">Option3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="feeding-advance-label">
+              Select Feeding Advance
+            </InputLabel>
+            <Select
+              labelId="feeding-advance-label"
+              id="feedingAdvance"
+              name="feedingAdvance"
+              multiple
+              value={feedingAdvanceSelection}
+              onChange={(event) =>
+                handleChange(event, setFeedingAdvanceSelection)
+              }
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="Option1">Option1</MenuItem>
+              <MenuItem value="Option2">Option2</MenuItem>
+              <MenuItem value="Option3">Option3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="standard">
+            <InputLabel id="underpayment-label">Select Underpayment</InputLabel>
+            <Select
+              labelId="underpayment-label"
+              id="underpaymentDropdown"
+              name="underpaymentDropdown"
+              multiple
+              value={underpaymentSelection}
+              onChange={(event) =>
+                handleChange(event, setUnderpaymentSelection)
+              }
+              autoComplete="given-name"
+              renderValue={(selected) => selected.join(", ")}
+            >
+              <MenuItem value="Option1">Option1</MenuItem>
+              <MenuItem value="Option2">Option2</MenuItem>
+              <MenuItem value="Option3">Option3</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}></Grid>
         <Grid item xs={12}>
-          <TextField
-            required
-            id="address1"
-            name="address1"
-            label="Address line 1"
-            fullWidth
-            autoComplete="shipping address-line1"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
-            fullWidth
-            autoComplete="shipping address-line2"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="city"
-            name="city"
-            label="City"
-            fullWidth
-            autoComplete="shipping address-level2"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="state"
-            name="state"
-            label="State/Province/Region"
-            fullWidth
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="zip"
-            name="zip"
-            label="Zip / Postal code"
-            fullWidth
-            autoComplete="shipping postal-code"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="country"
-            name="country"
-            label="Country"
-            fullWidth
-            autoComplete="shipping country"
-            variant="standard"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
+          {/* <FormControlLabel
+            control={
+              <Checkbox color="secondary" name="saveAddress" value="yes" />
+            }
             label="Use this address for payment details"
-          />
+          /> */}
         </Grid>
       </Grid>
     </React.Fragment>

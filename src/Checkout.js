@@ -28,7 +28,7 @@ function Copyright() {
   );
 }
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
+const steps = ["Canteen Fees", "Advance", "Preview"];
 
 function getStepContent(step) {
   switch (step) {
@@ -72,13 +72,17 @@ export default function Checkout() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <Container component="main" maxWidth="sm" sx={{ mb: 50 }}>
         <Paper
           variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+          sx={{
+            my: { xs: 3, md: 6 },
+            p: { xs: 2, md: 3 },
+            width: "100%", // Set the width to 100%
+          }}
         >
           <Typography component="h1" variant="h4" align="center">
-            Canteen Fees
+            Feeding Fees
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
